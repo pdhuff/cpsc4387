@@ -4,4 +4,5 @@ google-cloud-storage
 google-cloud-datastore
 google-api-python-client
 google-cloud-pubsub
+google-cloud-runtimeconfig
 oauth2client
