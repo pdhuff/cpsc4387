@@ -1,0 +1,7 @@
+flask
+google-cloud
+google-cloud-core[grpc]
+google-api-python-client
+google-cloud-storage
+google-cloud-runtimeconfig
+google-cloud-pubsub

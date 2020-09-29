@@ -1,0 +1,3 @@
+# Run these commands when you are ready to deploy
+gcloud builds submit --tag gcr.io/<PROJECT NAME>/<WHATEVER_SITE_NAME>
+gcloud run deploy --image gcr.io/<PROJECT NAME>/<WHATEVER_SITE_NAME>
