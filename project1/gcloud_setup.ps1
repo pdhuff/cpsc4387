@@ -44,25 +44,17 @@
     gcloud beta runtime-config configs variables set "zone" "us-central1-a" --config-name "myconfig"
  }
 
- # Create the source code repository used for cloud functions
- $confirmation = Read-Host "Do you want to create the source repository at this time? (y/N)"
- if ($confirmation -eq 'y')
- {
-     gcloud source repos create cpsc4387_gcp_repo
-     gcloud source repos clone
-     Read-Host "Copy the cloud-functions folder to the new repository cpsc4387_gcp_repo and push changes before continuing. Click Enter when this is finished..."
- }
-
 # Create the maintenance cloud functions
 $confirmation = Read-Host "Do you want to create your stop-servers cloud function at this time? (y/N)"
 if ($confirmation -eq 'y')
 {
+    $sourcepath = Join-Path (Resolve-Path ..\).Path "\cloud-functions"
     gcloud functions deploy --quiet function-stop-all-servers `
         --region=$region `
         --memory=256MB `
         --entry-point=cloud_fn_stop_all_servers `
         --runtime=python37 `
-        --source=https://source.developers.google.com/projects/$project/repos/cpsc4387_gcp_repo/moveable-aliases/master/paths/cloud-functions `
+        --source=$sourcepath `
         --service-account=myservice@"$project".iam.gserviceaccount.com `
         --timeout=540s `
         --trigger-topic=stop-all-servers
