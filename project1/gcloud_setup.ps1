@@ -68,5 +68,5 @@ if ($confirmation -eq 'y') {
         $tz = "America/Chicago"
     }
 
-    gcloud scheduler jobs create pubsub job-stop-all-servers --schedule="0 * * * *" --topic=stop-all-servers --message-body=Hello!
+    gcloud scheduler jobs create pubsub job-stop-all-servers --schedule="0 0 * * *" --topic=stop-all-servers --message-body=Hello!
 }
