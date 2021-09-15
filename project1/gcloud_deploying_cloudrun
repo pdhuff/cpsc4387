@@ -1,3 +1,0 @@
-# Run this at the root of the directory, <SOURCE>, you intend to deploy
-gcloud builds submit <SOURCE> --tag gcr.io/<SOURCE>/<SERVICENAME>
-gcloud run deploy --image gcr.io/<SOURCE>/<SERVICENAME> --memory=512 --platform=managed --region=us-central1 --allow-unauthenticated --service-account=myservice@<PROJECT>.iam.gserviceaccount.com
