@@ -1,6 +1,6 @@
+import uuid
 import googleapiclient.discovery
 from google.cloud import runtimeconfig
-
 
 def cloud_fn_stop_all_servers(event, context):
     """
@@ -13,7 +13,6 @@ def cloud_fn_stop_all_servers(event, context):
     runtimeconfig_client = runtimeconfig.Client()
     myconfig = runtimeconfig_client.config('cybergym')
     project = myconfig.get_variable('project').value.decode("utf-8")
-    region = myconfig.get_variable('region').value.decode("utf-8")
     zone = myconfig.get_variable('zone').value.decode("utf-8")
 
     compute = googleapiclient.discovery.build('compute', 'v1')
@@ -44,6 +43,34 @@ def cloud_fn_your_cloud_function(event, context):
         return
 
     if action == "build":
-        print("Replace this with a function to build the cloud server")
+        runtimeconfig_client = runtimeconfig.Client()
+        myconfig = runtimeconfig_client.config('cybergym')
+        project = myconfig.get_variable('project').value.decode("utf-8")
+        zone = myconfig.get_variable('zone').value.decode("utf-8")
+
+        server_name = f"auto_server-{uuid.uuid4()}"
+        compute = googleapiclient.discovery.build('compute', 'v1')
+        image_response = compute.images().getFromFamily(project="debian-cloud", family="debian-9").execute()
+        source_disk_image = image_response["selfLink"]
+        config = {
+            "name": server_name,
+            "machineType": f"projects/{project}/zones/{zone}/machineTypes/e2-micro",
+            "disks": [
+                {
+                    "boot": True,
+                    "autoDelete": True,
+                    "initializeParams": {
+                        "sourceImage": source_disk_image,
+                    }
+                }
+            ],
+            "networkInterfaces": [{
+                "network": "global/networks/default",
+                "accessConfigs": [
+                    {"type": "ONE_TO_ONE_NAT", "name": "External NAT"}
+                ]
+            }],
+        }
+        print("Continue coding to deploy the server")
     elif action == "bucket":
         print("Replace this with a function to create the cloud bucket.")

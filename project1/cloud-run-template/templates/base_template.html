@@ -15,7 +15,8 @@
     <div class="main-content">
         {% block content %}
         <form class="border border-light p-5">
-            <button class="btn btn-info btn-block my-4" type="submit" formmethod="post">Sample Button</button>
+            <button type="submit" name="action" value="build">Create Compute</button>
+            <button type="submit" name="action" value="bucket">Create Storage</button>
         </form>
         {% endblock %}
     </div>
