@@ -32,6 +32,7 @@
   $confirmation = Read-Host "Do you want to create the pubsub topics for cloud functions at this time? (y/N)"
   if ($confirmation -eq 'y') {
     gcloud pubsub topics create stop-all-servers
+    gcloud pubsub topics create my-action-topic
   }
 
  # Create project defaults
@@ -44,7 +45,7 @@
  }
 
 # Create the maintenance cloud functions
-$confirmation = Read-Host "Do you want to create your stop-servers cloud function at this time? (y/N)"
+$confirmation = Read-Host "Do you want to create or update cloud functions at this time? (y/N)"
 if ($confirmation -eq 'y')
 {
     $sourcepath = ".\cloud-functions"
@@ -57,6 +58,15 @@ if ($confirmation -eq 'y')
         --service-account=myservice@"$project".iam.gserviceaccount.com `
         --timeout=540s `
         --trigger-topic=stop-all-servers
+    gcloud functions deploy --quiet function-process-cloud-run-button `
+        --region=$region `
+        --memory=256MB `
+        --entry-point=cloud_fn_my_cloud_function `
+        --runtime=python37 `
+        --source=$sourcepath `
+        --service-account=myservice@"$project".iam.gserviceaccount.com `
+        --timeout=540s `
+        --trigger-topic=my-action-topic
 }
 
 $confirmation = Read-Host "Do you want to deploy your cloud run application at this time? (y/N)"

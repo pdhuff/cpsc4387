@@ -11,7 +11,7 @@ def cloud_fn_stop_all_servers(event, context):
     :return:
     """
     runtimeconfig_client = runtimeconfig.Client()
-    myconfig = runtimeconfig_client.config('cybergym')
+    myconfig = runtimeconfig_client.config('myconfig')
     project = myconfig.get_variable('project').value.decode("utf-8")
     zone = myconfig.get_variable('zone').value.decode("utf-8")
 
@@ -22,7 +22,7 @@ def cloud_fn_stop_all_servers(event, context):
             compute.instances().stop(project=project, zone=zone, instance=vm_instance["name"]).execute()
 
 
-def cloud_fn_your_cloud_function(event, context):
+def cloud_fn_my_cloud_function(event, context):
     """
     This is your function
     Args:

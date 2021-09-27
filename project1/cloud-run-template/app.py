@@ -10,7 +10,7 @@ def test_page():
     project = "name_of_your_gcp_project"
     if request.method == 'POST':
         action = request.form['action']
-        pubsub_topic = "build_server_or_whatever_you_want"
+        pubsub_topic = "my-action-topic"
         publisher = pubsub_v1.PublisherClient()
         topic_path = publisher.topic_path(project, pubsub_topic)
         future = publisher.publish(topic_path, data=b'Some text noone will read', action=action)
